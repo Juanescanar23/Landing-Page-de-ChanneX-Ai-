@@ -359,7 +359,17 @@ body::before {
 
 .hero-title { margin-bottom: var(--s3); }
 .hero-body { max-width: 500px; margin-bottom: var(--s5); }
-.hero-actions { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; margin-bottom: var(--s5); }
+.hero-actions { display: flex; align-items: center; gap: var(--s2); flex-wrap: wrap; margin-bottom: var(--s3); }
+.hero-trust {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: var(--s2); margin-bottom: var(--s4);
+}
+.hero-trust-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--emerald); flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(16,185,129,.6);
+}
+.hero-trust-text { font-size: .80rem; color: var(--paper-45); letter-spacing: .01em; }
 
 /* hero stats bar */
 .hero-stats {
@@ -438,28 +448,65 @@ body::before {
 /* ═══════════════════════════════════════
    METRICS BAR
 ═══════════════════════════════════════ */
-.metrics-bar { padding: var(--s5) 0; position: relative; z-index: 2; }
+.metrics-bar { padding: var(--s5) 0 var(--s6); position: relative; z-index: 2; }
 .metrics-row {
   display: grid; grid-template-columns: repeat(4,1fr);
-  gap: 1px;
-  background: var(--paper-05);
-  border-radius: var(--r-lg); overflow: hidden;
+  background: linear-gradient(135deg, rgba(124,22,232,.05), rgba(11,14,40,.8), rgba(59,130,246,.04));
   border: 1px solid var(--paper-05);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  position: relative;
+}
+/* top gradient line */
+.metrics-row::before {
+  content: "";
+  position: absolute; top: 0; left: 8%; right: 8%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--magenta), var(--violet), var(--blue-2), transparent);
+  z-index: 1;
 }
 .metric-cell {
-  background: var(--ink-2);
-  padding: var(--s4) var(--s3);
+  padding: var(--s5) var(--s4);
   text-align: center;
-  transition: background .3s;
+  position: relative;
+  transition: background .35s;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
 }
-.metric-cell:hover { background: var(--ink-3); }
-.metric-cell-n {
-  font-family: var(--f-head); font-size: 2.4rem; font-weight: 800;
-  background: linear-gradient(135deg, var(--magenta-2), var(--cyan));
+/* vertical divider between cells */
+.metric-cell + .metric-cell::after {
+  content: "";
+  position: absolute; left: 0; top: 22%; bottom: 22%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, var(--paper-10), transparent);
+}
+.metric-cell:hover { background: rgba(255,255,255,.025); }
+
+/* unique gradient per metric */
+.metric-cell:nth-child(1) .metric-cell-n {
+  background: linear-gradient(135deg, #e879f9, #a855f7);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-  display: block; margin-bottom: 4px;
 }
-.metric-cell-l { font-size: .78rem; color: var(--paper-45); letter-spacing: .03em; }
+.metric-cell:nth-child(2) .metric-cell-n {
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.metric-cell:nth-child(3) .metric-cell-n {
+  background: linear-gradient(135deg, #34d399, #06b6d4);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.metric-cell:nth-child(4) .metric-cell-n {
+  background: linear-gradient(135deg, #fb923c, #f472b6);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.metric-cell-n {
+  font-family: var(--f-head); font-size: 2.6rem; font-weight: 800;
+  line-height: 1; letter-spacing: -.03em;
+  display: block;
+}
+.metric-cell-l {
+  font-size: .82rem; color: var(--paper-45);
+  letter-spacing: .01em; line-height: 1.4;
+  max-width: 130px;
+}
 
 /* ═══════════════════════════════════════
    PROBLEM SECTION
@@ -1295,6 +1342,10 @@ img { max-width: 100%; height: auto; }
           </a>
           <a href="#plataforma" class="btn btn--ghost">Ver la plataforma</a>
         </div>
+        <div class="hero-trust fade-up">
+          <span class="hero-trust-dot"></span>
+          <span class="hero-trust-text">Sin permanencia · Implementación guiada · Operativo en 3–4 semanas</span>
+        </div>
 
       </div>
 
@@ -1351,19 +1402,19 @@ img { max-width: 100%; height: auto; }
     <div class="metrics-row">
       <div class="metric-cell fade-up">
         <span class="metric-cell-n" data-count="3" data-suf="">0</span>
-        <span class="metric-cell-l">Empresas implementadas</span>
+        <span class="metric-cell-l">Empresas activas en producción</span>
       </div>
       <div class="metric-cell fade-up">
         <span class="metric-cell-n" data-count="90" data-suf="s">0s</span>
-        <span class="metric-cell-l">Calificación de lead con IA</span>
+        <span class="metric-cell-l">Para calificar un lead con IA</span>
       </div>
       <div class="metric-cell fade-up">
         <span class="metric-cell-n" data-count="80" data-suf="%">0%</span>
-        <span class="metric-cell-l">Ahorro en horas operativas</span>
+        <span class="metric-cell-l">Reducción en carga operativa</span>
       </div>
       <div class="metric-cell fade-up">
         <span class="metric-cell-n">3–4 sem</span>
-        <span class="metric-cell-l">Para estar 100% operativo</span>
+        <span class="metric-cell-l">De implementación hasta operar solo</span>
       </div>
     </div>
   </div>
