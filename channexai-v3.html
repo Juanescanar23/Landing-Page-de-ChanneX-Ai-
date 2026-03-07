@@ -2392,7 +2392,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // ── NAV ──
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 50), {passive:true});
+// nav scroll handled via lenis below
 
 // ── MOBILE NAV ──
 const mobileNav = document.getElementById('mobileNav');
@@ -2400,24 +2400,27 @@ const hamburgerBtn = document.getElementById('hamburger');
 function openMobileNav() {
   mobileNav.classList.add('open');
   hamburgerBtn.classList.add('open');
-  document.body.style.overflow = 'hidden';
+  if (window.__lenis) window.__lenis.stop();
 }
 function closeMobileNav() {
   mobileNav.classList.remove('open');
   hamburgerBtn.classList.remove('open');
-  document.body.style.overflow = '';
+  if (window.__lenis) window.__lenis.start();
 }
 hamburgerBtn.addEventListener('click', openMobileNav);
 document.getElementById('mobileClose').addEventListener('click', closeMobileNav);
 document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMobileNav));
 
+window.addEventListener('load', function() {
 // ── LENIS SMOOTH SCROLL ──
 const lenis = new Lenis({
-  duration: 1.2,
+  duration: 0.85,
   easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   smoothWheel: true,
   touchMultiplier: 2,
 });
+window.__lenis = lenis;
+lenis.on('scroll', ({scroll}) => nav.classList.toggle('scrolled', scroll > 50));
 gsap.ticker.add(time => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
 lenis.on('scroll', ScrollTrigger.update);
@@ -2449,23 +2452,23 @@ const isHeroChild = el => !!el.closest('.hero');
 gsap.utils.toArray('.fade-up').forEach(el => {
   if (isHeroChild(el)) return;
   gsap.from(el, { opacity: 0, y: 44, duration: 0.85, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none', once: true }
   });
 });
 gsap.utils.toArray('.fade-left').forEach(el => {
   gsap.from(el, { opacity: 0, x: -48, duration: 0.85, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none', once: true }
   });
 });
 gsap.utils.toArray('.fade-right').forEach(el => {
   if (isHeroChild(el)) return;
   gsap.from(el, { opacity: 0, x: 48, duration: 0.85, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none', once: true }
   });
 });
 gsap.utils.toArray('.fade-scale').forEach(el => {
   gsap.from(el, { opacity: 0, scale: 0.93, duration: 0.75, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none', once: true }
   });
 });
 
@@ -2477,7 +2480,7 @@ gsap.utils.toArray('.stagger-child').forEach(el => {
   staggerParents.add(p);
   gsap.from(p.querySelectorAll('.stagger-child'), {
     opacity: 0, y: 36, duration: 0.75, ease: 'power3.out', stagger: 0.09,
-    scrollTrigger: { trigger: p, start: 'top 86%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: p, start: 'top 86%', toggleActions: 'play none none none' , once: true }
   });
 });
 
@@ -2530,14 +2533,14 @@ if (mock) typObs.observe(mock);
 const tlWrap = document.querySelector('.timeline-wrap');
 if (tlWrap) {
   gsap.from('.tl-col', { opacity: 0, y: 44, duration: 0.78, ease: 'power3.out', stagger: 0.12,
-    scrollTrigger: { trigger: tlWrap, start: 'top 82%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: tlWrap, start: 'top 82%', toggleActions: 'play none none none' , once: true }
   });
 }
 
 // ── APP CARDS STAGGER ──
 document.querySelectorAll('.apps-featured, .apps-row, .apps-row-3').forEach(row => {
   gsap.from(row.querySelectorAll('.app-card'), { opacity: 0, y: 36, duration: 0.72, ease: 'power3.out', stagger: 0.07,
-    scrollTrigger: { trigger: row, start: 'top 87%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: row, start: 'top 87%', toggleActions: 'play none none none' , once: true }
   });
 });
 
@@ -2545,10 +2548,10 @@ document.querySelectorAll('.apps-featured, .apps-row, .apps-row-3').forEach(row 
 const pg = document.querySelector('.pricing-layout');
 if (pg) {
   gsap.from('.impl-block', { opacity: 0, y: 36, duration: 0.8, ease: 'power3.out',
-    scrollTrigger: { trigger: '.impl-block', start: 'top 84%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: '.impl-block', start: 'top 84%', toggleActions: 'play none none none' , once: true }
   });
   gsap.from('.plan-card', { opacity: 0, y: 36, duration: 0.75, ease: 'power3.out', stagger: 0.1,
-    scrollTrigger: { trigger: '.plans-row', start: 'top 85%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: '.plans-row', start: 'top 85%', toggleActions: 'play none none none' , once: true }
   });
 }
 
@@ -2556,7 +2559,7 @@ if (pg) {
 const mr = document.querySelector('.metrics-row');
 if (mr) {
   gsap.from('.metric-cell', { opacity: 0, y: 28, scale: 0.95, duration: 0.7, ease: 'power3.out', stagger: 0.09,
-    scrollTrigger: { trigger: mr, start: 'top 85%', toggleActions: 'play none none none' }
+    scrollTrigger: { trigger: mr, start: 'top 85%', toggleActions: 'play none none none' , once: true }
   });
 }
 
@@ -2568,7 +2571,7 @@ gsap.to('.orb-2', { y: -110, x: -50, ease: 'none', scrollTrigger: { scrub: 1.8 }
 document.addEventListener('mousemove', e => {
   const x = (e.clientX / window.innerWidth  - 0.5) * 18;
   const y = (e.clientY / window.innerHeight - 0.5) * 18;
-  gsap.to('.orb-3', { x: `calc(-50% + ${x*1.4}px)`, y: `calc(-50% + ${y*1.4}px)`, duration: 1.2, ease: 'power2.out', overwrite: 'auto' });
+  gsap.to('.orb-3', { x: `calc(-50% + ${x*1.4}px)`, y: `calc(-50% + ${y*1.4}px)`, duration: 0.85, ease: 'power2.out', overwrite: 'auto' });
   gsap.to('.orb-4', { x: x * 0.7, y: y * 0.7, duration: 1.0, ease: 'power2.out', overwrite: 'auto' });
 }, { passive: true });
 
@@ -2586,5 +2589,10 @@ document.addEventListener('mousemove', e => {
     });
   }
 })();
+
+// ── SCROLLTRIGGER REFRESH ──
+ScrollTrigger.refresh();
+
+});
 </script>
 </body>
