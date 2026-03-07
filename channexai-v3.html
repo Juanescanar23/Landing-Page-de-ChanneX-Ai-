@@ -622,7 +622,7 @@ body::before {
   border: 1px solid rgba(242,0,89,.32);
   border-radius: var(--r-md); padding: 10px 14px;
   box-shadow: 0 12px 32px rgba(0,0,0,.4);
-  animation: float-bob 3s ease-in-out infinite;
+  /* float animation via GSAP */
 }
 .float-pill:nth-child(2) { animation-duration: 3.8s; animation-delay: -1.2s; }
 .float-pill.top { top: -20px; right: -24px; }
@@ -630,7 +630,7 @@ body::before {
 .fp-label { font-size: .64rem; color: var(--paper-45); letter-spacing: .04em; }
 .fp-val { font-family: var(--f-head); font-size: .9rem; font-weight: 700; margin-top: 2px; }
 .fp-val .up { color: var(--emerald); }
-@keyframes float-bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
 
 /* ═══════════════════════════════════════
    METRICS BAR
@@ -1313,18 +1313,7 @@ body::before {
 /* ═══════════════════════════════════════
    SCROLL ANIMATIONS
 ═══════════════════════════════════════ */
-/* Animation base - visible by default, JS enhances */
-.fade-up, .fade-left, .fade-right, .fade-scale, .stagger-child {
-  opacity: 1; transform: none;
-}
-/* JS-enhanced: when JS loads, these get set to hidden then animated in */
-.js-ready .fade-up    { opacity: 0; transform: translateY(32px); }
-.js-ready .fade-left  { opacity: 0; transform: translateX(-28px); }
-.js-ready .fade-right { opacity: 0; transform: translateX(28px); }
-.js-ready .fade-scale { opacity: 0; transform: scale(.95); }
-.js-ready .stagger-child { opacity: 0; transform: translateY(24px); }
-/* animated state */
-.anim-done { opacity: 1 !important; transform: none !important; transition: opacity .7s ease, transform .7s ease; }
+/* Scroll animations handled by GSAP + ScrollTrigger */
 
 /* ═══════════════════════════════════════
    RESPONSIVE — BREAKPOINTS
@@ -2392,10 +2381,14 @@ img { max-width: 100%; height: auto; }
 </footer>
 
 <!-- ══════════════ SCRIPTS ══════════════ -->
+<!-- Lenis Smooth Scroll -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
 <script>
-// Mark body as JS-ready so CSS hides elements for animation
-document.documentElement.classList.add('js-ready');
-document.body.classList.add('js-ready');
+gsap.registerPlugin(ScrollTrigger);
 
 // ── NAV ──
 const nav = document.getElementById('nav');
@@ -2418,45 +2411,75 @@ hamburgerBtn.addEventListener('click', openMobileNav);
 document.getElementById('mobileClose').addEventListener('click', closeMobileNav);
 document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMobileNav));
 
-// ── UNIVERSAL INTERSECTION OBSERVER for scroll reveals ──
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      // stagger siblings
-      const parent = e.target.parentElement;
-      const siblings = parent ? [...parent.querySelectorAll('.stagger-child')] : [];
-      const idx = siblings.indexOf(e.target);
-      const delay = (e.target.classList.contains('stagger-child') ? idx * 80 : 0);
-      setTimeout(() => e.target.classList.add('anim-done'), delay);
-      revealObs.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+// ── LENIS SMOOTH SCROLL ──
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothWheel: true,
+  touchMultiplier: 2,
+});
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+lenis.on('scroll', ScrollTrigger.update);
 
-document.querySelectorAll('.fade-up, .fade-left, .fade-right, .fade-scale, .stagger-child').forEach(el => {
-  revealObs.observe(el);
+// Smooth anchor scrolling via Lenis
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', e => {
+    const id = anchor.getAttribute('href');
+    const target = document.querySelector(id);
+    if (target) { e.preventDefault(); lenis.scrollTo(target, { offset: -80, duration: 1.4 }); }
+  });
 });
 
-// ── HERO: animate immediately on load ──
-function heroEntrance() {
-  const heroEls = [
-    { sel: '#hero-badge',    delay: 80  },
-    { sel: '.hero-title',    delay: 180 },
-    { sel: '.hero-body',     delay: 300 },
-    { sel: '.hero-actions',  delay: 400 },
-    { sel: '.hero-stats',    delay: 500 },
-    { sel: '.hero-visual',   delay: 300 },
-  ];
-  heroEls.forEach(({sel, delay}) => {
-    const el = document.querySelector(sel);
-    if (el) setTimeout(() => el.classList.add('anim-done'), delay);
+// ── HERO ENTRANCE (GSAP Timeline) ──
+const heroTl = gsap.timeline({ delay: 0.1, defaults: { ease: 'power3.out' } });
+heroTl
+  .from('#hero-badge',    { opacity: 0, y: 24, duration: 0.65 })
+  .from('.hero-title',    { opacity: 0, y: 56, duration: 1.0, ease: 'power4.out' }, '-=0.35')
+  .from('.hero-body',     { opacity: 0, y: 32, duration: 0.75 }, '-=0.5')
+  .from('.hero-actions',  { opacity: 0, y: 24, duration: 0.65 }, '-=0.4')
+  .from('.hero-trust',    { opacity: 0, y: 16, duration: 0.5  }, '-=0.3')
+  .from('.hero-visual',   { opacity: 0, x: 64, duration: 1.1, ease: 'power3.out' }, '-=0.75')
+  .from('.float-pill.top',{ opacity: 0, scale: 0.8, duration: 0.6, ease: 'back.out(2)' }, '-=0.4')
+  .from('.float-pill.bot',{ opacity: 0, scale: 0.8, duration: 0.6, ease: 'back.out(2)' }, '-=0.5');
+
+// ── SCROLL REVEALS (GSAP ScrollTrigger) ──
+const isHeroChild = el => !!el.closest('.hero');
+
+gsap.utils.toArray('.fade-up').forEach(el => {
+  if (isHeroChild(el)) return;
+  gsap.from(el, { opacity: 0, y: 44, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' }
   });
-}
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', heroEntrance);
-} else {
-  heroEntrance();
-}
+});
+gsap.utils.toArray('.fade-left').forEach(el => {
+  gsap.from(el, { opacity: 0, x: -48, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' }
+  });
+});
+gsap.utils.toArray('.fade-right').forEach(el => {
+  if (isHeroChild(el)) return;
+  gsap.from(el, { opacity: 0, x: 48, duration: 0.85, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' }
+  });
+});
+gsap.utils.toArray('.fade-scale').forEach(el => {
+  gsap.from(el, { opacity: 0, scale: 0.93, duration: 0.75, ease: 'power3.out',
+    scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' }
+  });
+});
+
+// Stagger children grouped by parent
+const staggerParents = new Set();
+gsap.utils.toArray('.stagger-child').forEach(el => {
+  const p = el.parentElement;
+  if (staggerParents.has(p)) return;
+  staggerParents.add(p);
+  gsap.from(p.querySelectorAll('.stagger-child'), {
+    opacity: 0, y: 36, duration: 0.75, ease: 'power3.out', stagger: 0.09,
+    scrollTrigger: { trigger: p, start: 'top 86%', toggleActions: 'play none none none' }
+  });
+});
 
 // ── COUNTERS ──
 const counterDone = new Set();
@@ -2481,15 +2504,9 @@ const countObs = new IntersectionObserver(entries => {
 }, {threshold: .3});
 document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
 
-// ── FLOAT PILLS JS ANIMATION ──
-const fp1 = document.querySelector('.float-pill.top');
-const fp2 = document.querySelector('.float-pill.bot');
-function floatTick(t) {
-  if(fp1) fp1.style.transform = `translateY(${Math.sin(t/2800)*-9}px)`;
-  if(fp2) fp2.style.transform = `translateY(${Math.sin(t/3500+1)*8}px)`;
-  requestAnimationFrame(floatTick);
-}
-requestAnimationFrame(floatTick);
+// ── FLOAT PILLS (GSAP) ──
+gsap.to('.float-pill.top', { y: -11, duration: 3,   ease: 'sine.inOut', yoyo: true, repeat: -1 });
+gsap.to('.float-pill.bot', { y:  9,  duration: 3.8, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.2 });
 
 // ── TYPING SIMULATION ──
 let typed = false;
@@ -2510,78 +2527,50 @@ const mock = document.querySelector('.mockup');
 if (mock) typObs.observe(mock);
 
 // ── TIMELINE STAGGER ──
-const tlObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.querySelectorAll('.tl-col').forEach((col, i) => {
-        setTimeout(() => col.classList.add('anim-done'), i * 120);
-      });
-      tlObs.disconnect();
-    }
-  });
-}, {threshold:.1});
 const tlWrap = document.querySelector('.timeline-wrap');
-if (tlWrap) tlObs.observe(tlWrap);
-
+if (tlWrap) {
+  gsap.from('.tl-col', { opacity: 0, y: 44, duration: 0.78, ease: 'power3.out', stagger: 0.12,
+    scrollTrigger: { trigger: tlWrap, start: 'top 82%', toggleActions: 'play none none none' }
+  });
+}
 
 // ── APP CARDS STAGGER ──
-const appObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const cards = e.target.querySelectorAll('.app-card, .stagger-child');
-      cards.forEach((c, i) => setTimeout(() => c.classList.add('anim-done'), i * 70));
-      appObs.unobserve(e.target);
-    }
+document.querySelectorAll('.apps-featured, .apps-row, .apps-row-3').forEach(row => {
+  gsap.from(row.querySelectorAll('.app-card'), { opacity: 0, y: 36, duration: 0.72, ease: 'power3.out', stagger: 0.07,
+    scrollTrigger: { trigger: row, start: 'top 87%', toggleActions: 'play none none none' }
   });
-}, {threshold:.05});
-document.querySelectorAll('.apps-featured, .apps-row-3').forEach(row => appObs.observe(row));
+});
 
-// ── PRICING CARDS STAGGER ──
-const priceObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.querySelectorAll('.plan-card,.impl-block').forEach((c, i) => {
-        setTimeout(() => c.classList.add('anim-done'), i * 100);
-      });
-      priceObs.disconnect();
-    }
-  });
-}, {threshold:.1});
+// ── PRICING STAGGER ──
 const pg = document.querySelector('.pricing-layout');
-if (pg) priceObs.observe(pg);
+if (pg) {
+  gsap.from('.impl-block', { opacity: 0, y: 36, duration: 0.8, ease: 'power3.out',
+    scrollTrigger: { trigger: '.impl-block', start: 'top 84%', toggleActions: 'play none none none' }
+  });
+  gsap.from('.plan-card', { opacity: 0, y: 36, duration: 0.75, ease: 'power3.out', stagger: 0.1,
+    scrollTrigger: { trigger: '.plans-row', start: 'top 85%', toggleActions: 'play none none none' }
+  });
+}
 
 // ── METRICS BAR STAGGER ──
-const metObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      document.querySelectorAll('.metric-cell').forEach((c, i) => {
-        setTimeout(() => c.classList.add('anim-done'), i * 80);
-      });
-      metObs.disconnect();
-    }
-  });
-}, {threshold:.2});
 const mr = document.querySelector('.metrics-row');
-if (mr) metObs.observe(mr);
+if (mr) {
+  gsap.from('.metric-cell', { opacity: 0, y: 28, scale: 0.95, duration: 0.7, ease: 'power3.out', stagger: 0.09,
+    scrollTrigger: { trigger: mr, start: 'top 85%', toggleActions: 'play none none none' }
+  });
+}
 
-// ── PARALLAX ORBS ──
-window.addEventListener('scroll', () => {
-  const y = scrollY;
-  const o1 = document.querySelector('.orb-1');
-  const o2 = document.querySelector('.orb-2');
-  if (o1) o1.style.transform = `translate(${y*.03}px,${y*-.06}px)`;
-  if (o2) o2.style.transform = `translate(${y*-.025}px,${y*.05}px)`;
-}, {passive:true});
+// ── ORB PARALLAX (GSAP ScrollTrigger scrub) ──
+gsap.to('.orb-1', { y: -160, x:  55, ease: 'none', scrollTrigger: { scrub: 2.2 } });
+gsap.to('.orb-2', { y: -110, x: -50, ease: 'none', scrollTrigger: { scrub: 1.8 } });
 
-// ── SUBTLE MOUSEMOVE PARALLAX on hero ──
+// ── MOUSE PARALLAX (GSAP) ──
 document.addEventListener('mousemove', e => {
-  const x = (e.clientX / window.innerWidth - .5) * 16;
-  const y = (e.clientY / window.innerHeight - .5) * 16;
-  const o3 = document.querySelector('.orb-3');
-  const o4 = document.querySelector('.orb-4');
-  if (o3) o3.style.transform = `translate(calc(-50% + ${x*1.4}px), calc(-50% + ${y*1.4}px))`;
-  if (o4) o4.style.transform = `translate(${x*.7}px, ${y*.7}px)`;
-}, {passive:true});
+  const x = (e.clientX / window.innerWidth  - 0.5) * 18;
+  const y = (e.clientY / window.innerHeight - 0.5) * 18;
+  gsap.to('.orb-3', { x: `calc(-50% + ${x*1.4}px)`, y: `calc(-50% + ${y*1.4}px)`, duration: 1.2, ease: 'power2.out', overwrite: 'auto' });
+  gsap.to('.orb-4', { x: x * 0.7, y: y * 0.7, duration: 1.0, ease: 'power2.out', overwrite: 'auto' });
+}, { passive: true });
 
 // ── THEME TOGGLE ──
 (function() {
