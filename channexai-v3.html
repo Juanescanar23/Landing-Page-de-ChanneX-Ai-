@@ -2403,5 +2403,20 @@ document.addEventListener('mousemove', e => {
   if (o3) o3.style.transform = `translate(calc(-50% + ${x*1.4}px), calc(-50% + ${y*1.4}px))`;
   if (o4) o4.style.transform = `translate(${x*.7}px, ${y*.7}px)`;
 }, {passive:true});
+
+// ── THEME TOGGLE ──
+(function() {
+  const root = document.documentElement;
+  const btn  = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('channex-theme') || 'dark';
+  root.setAttribute('data-theme', saved);
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('channex-theme', next);
+    });
+  }
+})();
 </script>
 </body>
