@@ -92,7 +92,7 @@
    RESET & BASE
 ═══════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; overflow-x: hidden; font-size: 17px; }
+html { scroll-behavior: auto; overflow-x: hidden; font-size: 17px; }
 body {
   background: var(--ink);
   color: var(--paper);
@@ -2423,6 +2423,7 @@ window.__lenis = lenis;
 lenis.on('scroll', ({scroll}) => nav.classList.toggle('scrolled', scroll > 50));
 gsap.ticker.add(time => lenis.raf(time * 1000));
 gsap.ticker.lagSmoothing(0);
+ScrollTrigger.normalizeScroll(false);
 lenis.on('scroll', ScrollTrigger.update);
 
 // Smooth anchor scrolling via Lenis
@@ -2449,26 +2450,44 @@ heroTl
 // ── SCROLL REVEALS (GSAP ScrollTrigger) ──
 const isHeroChild = el => !!el.closest('.hero');
 
+function revealEl(el, fromVars, toVars, start) {
+  gsap.set(el, fromVars);
+  ScrollTrigger.create({
+    trigger: el,
+    start: start || 'top 90%',
+    once: true,
+    onEnter: () => gsap.to(el, { ...toVars, ...{ opacity: 1, duration: toVars.duration || 0.85, ease: toVars.ease || 'power3.out' } })
+  });
+}
+
 gsap.utils.toArray('.fade-up').forEach(el => {
   if (isHeroChild(el)) return;
-  gsap.from(el, { opacity: 0, y: 44, duration: 0.85, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none', once: true }
+  gsap.set(el, { opacity: 0, y: 44 });
+  ScrollTrigger.create({
+    trigger: el, start: 'top 90%', once: true,
+    onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' })
   });
 });
 gsap.utils.toArray('.fade-left').forEach(el => {
-  gsap.from(el, { opacity: 0, x: -48, duration: 0.85, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none', once: true }
+  gsap.set(el, { opacity: 0, x: -48 });
+  ScrollTrigger.create({
+    trigger: el, start: 'top 90%', once: true,
+    onEnter: () => gsap.to(el, { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' })
   });
 });
 gsap.utils.toArray('.fade-right').forEach(el => {
   if (isHeroChild(el)) return;
-  gsap.from(el, { opacity: 0, x: 48, duration: 0.85, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none', once: true }
+  gsap.set(el, { opacity: 0, x: 48 });
+  ScrollTrigger.create({
+    trigger: el, start: 'top 90%', once: true,
+    onEnter: () => gsap.to(el, { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' })
   });
 });
 gsap.utils.toArray('.fade-scale').forEach(el => {
-  gsap.from(el, { opacity: 0, scale: 0.93, duration: 0.75, ease: 'power3.out',
-    scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none', once: true }
+  gsap.set(el, { opacity: 0, scale: 0.93 });
+  ScrollTrigger.create({
+    trigger: el, start: 'top 90%', once: true,
+    onEnter: () => gsap.to(el, { opacity: 1, scale: 1, duration: 0.75, ease: 'power3.out' })
   });
 });
 
@@ -2478,9 +2497,11 @@ gsap.utils.toArray('.stagger-child').forEach(el => {
   const p = el.parentElement;
   if (staggerParents.has(p)) return;
   staggerParents.add(p);
-  gsap.from(p.querySelectorAll('.stagger-child'), {
-    opacity: 0, y: 36, duration: 0.75, ease: 'power3.out', stagger: 0.09,
-    scrollTrigger: { trigger: p, start: 'top 86%', toggleActions: 'play none none none' , once: true }
+  const children = p.querySelectorAll('.stagger-child');
+  gsap.set(children, { opacity: 0, y: 36 });
+  ScrollTrigger.create({
+    trigger: p, start: 'top 88%', once: true,
+    onEnter: () => gsap.to(children, { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out', stagger: 0.09 })
   });
 });
 
@@ -2532,34 +2553,49 @@ if (mock) typObs.observe(mock);
 // ── TIMELINE STAGGER ──
 const tlWrap = document.querySelector('.timeline-wrap');
 if (tlWrap) {
-  gsap.from('.tl-col', { opacity: 0, y: 44, duration: 0.78, ease: 'power3.out', stagger: 0.12,
-    scrollTrigger: { trigger: tlWrap, start: 'top 82%', toggleActions: 'play none none none' , once: true }
+  const tlCols = document.querySelectorAll('.tl-col');
+  gsap.set(tlCols, { opacity: 0, y: 44 });
+  ScrollTrigger.create({
+    trigger: tlWrap, start: 'top 85%', once: true,
+    onEnter: () => gsap.to(tlCols, { opacity: 1, y: 0, stagger: 0.12, duration: 0.85, ease: 'power3.out' })
   });
 }
 
 // ── APP CARDS STAGGER ──
 document.querySelectorAll('.apps-featured, .apps-row, .apps-row-3').forEach(row => {
-  gsap.from(row.querySelectorAll('.app-card'), { opacity: 0, y: 36, duration: 0.72, ease: 'power3.out', stagger: 0.07,
-    scrollTrigger: { trigger: row, start: 'top 87%', toggleActions: 'play none none none' , once: true }
+  const cards = row.querySelectorAll('.app-card');
+  gsap.set(cards, { opacity: 0, y: 36 });
+  ScrollTrigger.create({
+    trigger: row, start: 'top 87%', once: true,
+    onEnter: () => gsap.to(cards, { opacity: 1, y: 0, duration: 0.72, ease: 'power3.out', stagger: 0.07 })
   });
 });
 
 // ── PRICING STAGGER ──
 const pg = document.querySelector('.pricing-layout');
 if (pg) {
-  gsap.from('.impl-block', { opacity: 0, y: 36, duration: 0.8, ease: 'power3.out',
-    scrollTrigger: { trigger: '.impl-block', start: 'top 84%', toggleActions: 'play none none none' , once: true }
+  const implBlocks = document.querySelectorAll('.impl-block');
+  gsap.set(implBlocks, { opacity: 0, y: 36 });
+  ScrollTrigger.create({
+    trigger: '.impl-block', start: 'top 84%', once: true,
+    onEnter: () => gsap.to(implBlocks, { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1 })
   });
-  gsap.from('.plan-card', { opacity: 0, y: 36, duration: 0.75, ease: 'power3.out', stagger: 0.1,
-    scrollTrigger: { trigger: '.plans-row', start: 'top 85%', toggleActions: 'play none none none' , once: true }
+  const planCards = document.querySelectorAll('.plan-card');
+  gsap.set(planCards, { opacity: 0, y: 36 });
+  ScrollTrigger.create({
+    trigger: '.plans-row', start: 'top 85%', once: true,
+    onEnter: () => gsap.to(planCards, { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out', stagger: 0.1 })
   });
 }
 
 // ── METRICS BAR STAGGER ──
 const mr = document.querySelector('.metrics-row');
 if (mr) {
-  gsap.from('.metric-cell', { opacity: 0, y: 28, scale: 0.95, duration: 0.7, ease: 'power3.out', stagger: 0.09,
-    scrollTrigger: { trigger: mr, start: 'top 85%', toggleActions: 'play none none none' , once: true }
+  const mCells = document.querySelectorAll('.metric-cell');
+  gsap.set(mCells, { opacity: 0, y: 28, scale: 0.95 });
+  ScrollTrigger.create({
+    trigger: mr, start: 'top 85%', once: true,
+    onEnter: () => gsap.to(mCells, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: 'power3.out', stagger: 0.09 })
   });
 }
 
