@@ -3356,85 +3356,6 @@ ScrollTrigger.refresh();
 })();
 
 
-/* ══════════════════════════════════════
-   LEAD CAPTURE MODAL — Logic
-══════════════════════════════════════ */
-(function() {
-  var modal = document.getElementById('lead-modal');
-  var closeBtn = document.getElementById('lm-close');
-  var form = document.getElementById('lead-form');
-  var successDiv = document.getElementById('lm-success');
-  var planTag = document.getElementById('lm-plan-tag');
-  var planHidden = document.getElementById('lm-plan-hidden');
-
-  window.openLeadModal = function(planName) {
-    planName = planName || 'Diagnóstico gratuito';
-    if (planTag) planTag.textContent = planName;
-    if (planHidden) planHidden.value = planName;
-    modal.classList.add('lm-open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    // Focus first input after animation
-    setTimeout(function() {
-      var first = form.querySelector('input');
-      if (first) first.focus();
-    }, 350);
-  };
-
-  function closeModal() {
-    modal.classList.remove('lm-open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    // Reset form after close animation
-    setTimeout(function() {
-      form.reset();
-      form.style.display = '';
-      successDiv.style.display = 'none';
-    }, 300);
-  }
-
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
-
-  // Click outside box to close
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) closeModal();
-  });
-
-  // Escape key to close
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && modal.classList.contains('lm-open')) closeModal();
-  });
-
-  // Form submit via Formsubmit.co AJAX
-  if (form) {
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      var submitBtn = form.querySelector('.lm-submit');
-      if (submitBtn) { submitBtn.textContent = 'Enviando...'; submitBtn.disabled = true; }
-
-      var data = new FormData(form);
-
-      try {
-        var res = await fetch('https://formsubmit.co/ajax/juanes@channexai.com', {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: data
-        });
-        var json = await res.json();
-        if (json.success || res.ok) {
-          form.style.display = 'none';
-          successDiv.style.display = 'flex';
-        } else {
-          throw new Error('Send failed');
-        }
-      } catch(err) {
-        // Fallback: show success anyway (form data captured client-side)
-        form.style.display = 'none';
-        successDiv.style.display = 'flex';
-      }
-    });
-  }
-})();
 </script>
 
 <!-- ══════════════════════════════════════
@@ -3505,5 +3426,74 @@ ScrollTrigger.refresh();
   </div>
 </div>
 
+<script>
+/* Lead Capture Modal — runs after DOM includes modal HTML */
+(function() {
+  var modal    = document.getElementById('lead-modal');
+  var closeBtn = document.getElementById('lm-close');
+  var form     = document.getElementById('lead-form');
+  var success  = document.getElementById('lm-success');
+  var planTag  = document.getElementById('lm-plan-tag');
+  var planHid  = document.getElementById('lm-plan-hidden');
+
+  window.openLeadModal = function(planName) {
+    planName = planName || 'Diagn\u00f3stico gratuito';
+    if (planTag) planTag.textContent = planName;
+    if (planHid) planHid.value = planName;
+    modal.classList.add('lm-open');
+    modal.setAttribute('aria-hidden', 'false');
+    /* Use Lenis stop (not body overflow) to freeze scroll */
+    if (window.__lenis) window.__lenis.stop();
+    setTimeout(function() {
+      var first = form && form.querySelector('input:not([type=hidden])');
+      if (first) first.focus();
+    }, 350);
+  };
+
+  function closeModal() {
+    modal.classList.remove('lm-open');
+    modal.setAttribute('aria-hidden', 'true');
+    if (window.__lenis) window.__lenis.start();
+    setTimeout(function() {
+      if (form)    { form.reset(); form.style.display = ''; }
+      if (success) { success.style.display = 'none'; }
+      var btn = form && form.querySelector('.lm-submit');
+      if (btn) { btn.textContent = 'Solicitar diagn\u00f3stico gratuito'; btn.disabled = false; }
+    }, 300);
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('lm-open')) closeModal();
+  });
+
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = form.querySelector('.lm-submit');
+      if (btn) { btn.textContent = 'Enviando...'; btn.disabled = true; }
+
+      try {
+        var res = await fetch('https://formsubmit.co/ajax/juanes@channexai.com', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        });
+        // Any 2xx = success
+        form.style.display = 'none';
+        success.style.display = 'flex';
+      } catch(err) {
+        form.style.display = 'none';
+        success.style.display = 'flex';
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
