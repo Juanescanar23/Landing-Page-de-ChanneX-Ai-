@@ -4,9 +4,12 @@
   "buildCommand": null,
   "outputDirectory": null,
   "builds": [
-    { "src": "channexai-v3.html", "use": "@vercel/static" }
+    { "src": "channexai-v3.html", "use": "@vercel/static" },
+    { "src": "gracias.html", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/gracias", "dest": "/gracias.html" },
+    { "src": "/gracias/", "dest": "/gracias.html" },
     { "src": "/(.*)", "dest": "/channexai-v3.html" }
   ]
 }
