@@ -1797,6 +1797,94 @@ img { max-width: 100%; height: auto; }
   .bf-arrow { display: none; }
   .pricing-connector-inner { flex-direction: column; text-align: center; }
 }
+
+/* ── CURRENCY SWITCHER ── */
+.currency-switcher {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--s3); margin-bottom: var(--s5); flex-wrap: wrap;
+}
+.currency-label { font-size: .76rem; color: var(--paper-45); font-weight: 500; }
+.currency-note  { font-size: .68rem; color: var(--paper-20); font-style: italic; }
+.currency-tabs  {
+  display: flex; gap: 4px;
+  background: var(--ink-3); border: 1px solid var(--paper-10);
+  border-radius: 10px; padding: 4px;
+}
+.ctab {
+  padding: 6px 20px; border-radius: 7px; border: none; cursor: pointer;
+  font-family: var(--f-head); font-size: .76rem; font-weight: 700;
+  background: transparent; color: var(--paper-45); transition: all .2s;
+}
+.ctab.active {
+  background: linear-gradient(135deg, var(--magenta), var(--violet));
+  color: #fff; box-shadow: 0 2px 8px rgba(242,0,89,.3);
+}
+.ctab:hover:not(.active) { color: var(--paper); background: var(--paper-05); }
+
+/* ── STEP HEADERS ── */
+.px-step-header {
+  display: flex; align-items: center; gap: var(--s2); margin-bottom: var(--s3);
+}
+.px-step-num {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, var(--magenta), var(--violet));
+  color: #fff; font-family: var(--f-head); font-size: .80rem; font-weight: 800;
+}
+.px-step-title { font-family: var(--f-head); font-size: 1rem; font-weight: 700; }
+.px-step-sub   { font-size: .74rem; color: var(--paper-45); margin-top: 2px; }
+.px-step-badge {
+  margin-left: auto; font-size: .66rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; flex-shrink: 0;
+  background: rgba(242,0,89,.10); color: var(--magenta-2);
+  border: 1px solid rgba(242,0,89,.2); border-radius: 20px; padding: 4px 12px;
+}
+.px-step-badge--blue {
+  background: rgba(0,125,198,.10); color: var(--blue-2); border-color: rgba(0,125,198,.2);
+}
+
+/* ── IMPL BLOCK layout ── */
+.impl-block {
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--s5); align-items: start;
+}
+.impl-right {
+  display: flex; flex-direction: column;
+  padding: var(--s4); background: var(--ink-3);
+  border: 1px solid var(--paper-10); border-radius: var(--r-lg);
+}
+
+/* ── STRIPE BUTTON ── */
+.btn--stripe {
+  background: linear-gradient(135deg, #635BFF, #7B73FF);
+  color: #fff !important; border: none !important;
+  box-shadow: 0 4px 16px rgba(99,91,255,.35); font-weight: 700;
+}
+.btn--stripe:hover {
+  background: linear-gradient(135deg, #5248e0, #6e67f0) !important;
+  box-shadow: 0 6px 24px rgba(99,91,255,.5); transform: translateY(-2px);
+}
+
+/* ── PLAN TOTAL ── */
+.plan-total {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--s2) var(--s3);
+  background: var(--ink-3); border: 1px solid var(--paper-10);
+  border-radius: var(--r-md); margin: var(--s3) 0; gap: var(--s2); flex-wrap: wrap;
+}
+.plan-total-label { font-size: .72rem; color: var(--paper-45); }
+.plan-total-val   { font-size: .80rem; font-weight: 700; color: var(--paper); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .impl-block { grid-template-columns: 1fr; }
+  .px-step-badge { display: none; }
+}
+@media (max-width: 600px) {
+  .pfaq-grid { grid-template-columns: 1fr; }
+  .plans-row { grid-template-columns: 1fr; }
+  .ctab { padding: 6px 12px; font-size: .70rem; }
+  .currency-note { display: none; }
+}
 </style>
 </head>
 <body>
@@ -2438,160 +2526,192 @@ img { max-width: 100%; height: auto; }
 <section class="section" id="precios">
   <div class="container">
 
-    <div style="text-align:center;max-width:520px;margin:0 auto var(--s5)">
+    <div style="text-align:center;max-width:560px;margin:0 auto var(--s4)">
       <div class="eyebrow fade-up">Planes y precios</div>
-      <h2 class="display-2 fade-up">Simple, transparente,<br><span class="grad">sin sorpresas.</span></h2>
-      <p class="body-md fade-up" style="margin-top:var(--s2);color:var(--paper-45)">El modelo es en <strong style="color:var(--paper)">dos pasos</strong>: primero pagas la implementación <strong style="color:var(--paper)">una sola vez</strong> para que tu sistema quede activo. Luego, una <strong style="color:var(--paper)">suscripción mensual</strong> según el tamaño de tu operación.</p>
-      <!-- Billing flow pills -->
-      <div class="billing-flow fade-up">
-        <div class="bf-step">
-          <div class="bf-icon">1×</div>
-          <div class="bf-text"><strong>Implementación</strong><span>Pago único · No se repite</span></div>
-        </div>
-        <div class="bf-arrow">→</div>
-        <div class="bf-step">
-          <div class="bf-icon">∞</div>
-          <div class="bf-text"><strong>Suscripción</strong><span>Mes a mes · Cancela cuando quieras</span></div>
-        </div>
-        <div class="bf-arrow">=</div>
-        <div class="bf-step bf-step--total">
-          <div class="bf-icon">✓</div>
-          <div class="bf-text"><strong>Sistema activo</strong><span>Operando desde semana 3–4</span></div>
-        </div>
+      <h2 class="display-2 fade-up">Todo incluido.<br><span class="grad">Sin letra peque&ntilde;a.</span></h2>
+      <p class="body-md fade-up" style="margin-top:var(--s2);color:var(--paper-45)">
+        Pagas la implementaci&oacute;n <strong style="color:var(--paper)">una sola vez</strong> y luego una <strong style="color:var(--paper)">suscripci&oacute;n mensual</strong> sin permanencia m&iacute;nima.
+      </p>
+    </div>
+
+    <!-- Currency Switcher -->
+    <div class="currency-switcher fade-up">
+      <span class="currency-label">Ver precios en:</span>
+      <div class="currency-tabs">
+        <button class="ctab active" data-currency="COP">🇨🇴&nbsp;COP</button>
+        <button class="ctab" data-currency="USD">🇺🇸&nbsp;USD</button>
+        <button class="ctab" data-currency="MXN">🇲🇽&nbsp;MXN</button>
       </div>
+      <span class="currency-note" id="currency-note">TRM referencia: $3.800 COP/USD</span>
     </div>
 
     <div class="pricing-layout">
 
-      <!-- PASO 1 -->
-      <div>
-        <div class="pricing-step-label fade-up">
-          <div class="pricing-step-num active">1</div>
-          <span class="pricing-step-text active">Implementaci&oacute;n &mdash; pago &uacute;nico, no se repite</span>
+      <!-- ── PASO 1: Implementación ── -->
+      <div class="px-step-header fade-up">
+        <div class="px-step-num">1</div>
+        <div>
+          <div class="px-step-title">Implementaci&oacute;n</div>
+          <div class="px-step-sub">Pago &uacute;nico &middot; No se repite nunca</div>
         </div>
-        <div class="impl-block fade-up">
-          <div>
-            <div class="impl-label">Pago &uacute;nico &middot; No se repite</div>
-            <div class="impl-name">Implementaci&oacute;n</div>
-            <p class="impl-sub">Activamos las 9 apps, entrenamos a tu equipo y dejamos el sistema operativo en 3&ndash;4 semanas.</p>
+        <div class="px-step-badge">Solo una vez</div>
+      </div>
+
+      <div class="impl-block fade-up">
+        <div class="impl-left">
+          <div class="impl-label">Pago &uacute;nico &middot; No se repite</div>
+          <div class="impl-name">Implementaci&oacute;n</div>
+          <p class="impl-sub">Activamos las 9 apps, entrenamos a tu equipo y dejamos el sistema operativo en 3&ndash;4 semanas.</p>
+          <div class="impl-feat-list" style="margin-top:var(--s3)">
+            <div class="impl-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>9 apps</strong> configuradas para tu operaci&oacute;n</span></div>
+            <div class="impl-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>10 sesiones</strong> de onboarding presencial o remoto</span></div>
+            <div class="impl-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Sistema operativo en <strong>3 a 4 semanas</strong></span></div>
           </div>
-          <div class="impl-divider"></div>
-          <div class="impl-price-col">
-            <div class="impl-price-was">COP $4.800.000</div>
-            <div class="impl-price-now"><sup>COP </sup>3.9M</div>
-            <div class="impl-price-save">Ahorras $900K &middot; Oferta de lanzamiento</div>
+        </div>
+        <div class="impl-right">
+          <div class="impl-price-was"
+            data-cop="COP $4.800.000"
+            data-usd="USD $1.263"
+            data-mxn="MXN $22.100">COP $4.800.000</div>
+          <div class="impl-price-now">
+            <sup class="price-sym" data-cop="COP&nbsp;" data-usd="USD&nbsp;" data-mxn="MXN&nbsp;">COP&nbsp;</sup><span
+            class="price-val"
+            data-cop="3.9M"
+            data-usd="1.026"
+            data-mxn="18.000">3.9M</span>
           </div>
-          <div class="impl-divider"></div>
-          <div class="impl-features-col">
-            <div class="impl-feat-list">
-              <div class="impl-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>9 apps</strong> configuradas para tu operaci&oacute;n</span></div>
-              <div class="impl-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>10 sesiones</strong> de onboarding presencial o remoto</span></div>
-              <div class="impl-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Sistema operativo en <strong>3 a 4 semanas</strong></span></div>
-            </div>
-            <a href="mailto:admin@channexai.com" class="btn btn--outline" style="margin-top:var(--s3);white-space:nowrap">Solicitar propuesta &rarr;</a>
-          </div>
+          <div class="impl-price-save">Ahorras 20% &middot; Oferta de lanzamiento</div>
+          <a href="mailto:admin@channexai.com" class="btn btn--outline" style="margin-top:var(--s4);width:100%;justify-content:center">Solicitar propuesta &rarr;</a>
         </div>
       </div>
 
-      <!-- CONNECTOR -->
+      <!-- Connector -->
       <div class="pricing-connector fade-up">
-        <div class="pricing-connector-inner">
-          <div class="pricing-plus">+</div>
-          <div class="pricing-connector-text">
-            <strong>Luego, desde que tu sistema está activo</strong>
-            <span>Elige el plan mensual que va con tu operación. Sin permanencia mínima.</span>
-          </div>
+        <div class="pricing-plus">+</div>
+        <div class="pricing-connector-text">
+          <strong>Luego, desde que tu sistema est&aacute; activo</strong>
+          <span>Elige el plan mensual. Sin permanencia m&iacute;nima.</span>
         </div>
       </div>
 
-      <!-- PASO 2 -->
-      <div>
-        <div class="pricing-step-label fade-up">
-          <div class="pricing-step-num active">2</div>
-          <span class="pricing-step-text active">Suscripci&oacute;n mensual &mdash; elige tu plan</span>
+      <!-- ── PASO 2: Suscripción ── -->
+      <div class="px-step-header fade-up">
+        <div class="px-step-num">2</div>
+        <div>
+          <div class="px-step-title">Suscripci&oacute;n mensual</div>
+          <div class="px-step-sub">Elige el plan que va con tu operaci&oacute;n</div>
         </div>
-        <div class="plans-row">
+        <div class="px-step-badge px-step-badge--blue">Mes a mes</div>
+      </div>
 
-          <!-- PROFESSIONAL -->
-          <div class="plan-card plan-featured fade-scale">
-            <div class="plan-badge">&#10022; M&aacute;s elegido</div>
-            <div class="plan-header">
-              <div class="plan-type-label">Suscripci&oacute;n mensual</div>
-              <div class="plan-name">Professional</div>
-            </div>
-            <div class="plan-price-block">
-              <div class="plan-price-was">COP $3.200.000 / mes</div>
-              <div class="plan-price-now"><sup>COP </sup>2.4M<sub> /mes</sub></div>
-              <div class="plan-price-save">Precio especial de lanzamiento</div>
-            </div>
-            <p class="plan-desc">Para equipos comerciales que quieren operar con IA desde el d&iacute;a 1 &mdash; sin necesidad de m&aacute;s personal.</p>
-            <div class="plan-feats">
-              <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>9 apps activas</strong> con mantenimiento continuo</span></div>
-              <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>2 usuarios incluidos</strong><span class="plan-feat-sub">Adicionales: COP $10.000 / usuario / mes</span></span></div>
-              <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Soporte <strong>prioritario</strong> por WhatsApp y email</span></div>
-              <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Acceso anticipado a <strong>nuevas apps</strong> en desarrollo</span></div>
-            </div>
-            <div class="plan-total">
-              <span class="plan-total-label">Inversi&oacute;n total el primer mes</span>
-              <span class="plan-total-value">COP&nbsp;6.3M <span>= 3.9M + 2.4M</span></span>
-            </div>
-            <a href="https://wa.me/5210000000000" class="btn btn--primary" style="width:100%;justify-content:center">Comenzar con Professional &rarr;</a>
+      <div class="plans-row">
+
+        <!-- PROFESSIONAL -->
+        <div class="plan-card plan-featured fade-scale">
+          <div class="plan-badge">&#10022; M&aacute;s elegido</div>
+          <div class="plan-header">
+            <div class="plan-type-label">Suscripci&oacute;n mensual</div>
+            <div class="plan-name">Professional</div>
           </div>
-
-          <!-- ENTERPRISE -->
-          <div class="plan-card fade-scale">
-            <div class="plan-header">
-              <div class="plan-type-label">Suscripci&oacute;n mensual</div>
-              <div class="plan-name">Enterprise</div>
+          <div class="plan-price-block">
+            <div class="plan-price-was"
+              data-cop="COP $3.200.000 / mes"
+              data-usd="USD $842 / mo"
+              data-mxn="MXN $14.700 / mes">COP $3.200.000 / mes</div>
+            <div class="plan-price-now">
+              <sup class="price-sym" data-cop="COP&nbsp;" data-usd="USD&nbsp;" data-mxn="MXN&nbsp;">COP&nbsp;</sup><span
+              class="price-val"
+              data-cop="2.4M" data-usd="632" data-mxn="11.100">2.4M</span><sub class="plan-period" data-cop="/mes" data-usd="/mo" data-mxn="/mes">/mes</sub>
             </div>
-            <div class="plan-price-block">
-              <div class="plan-price-was">COP $6.000.000 / mes</div>
-              <div class="plan-price-now"><sup>COP </sup>4.8M<sub> /mes</sub></div>
-              <div class="plan-price-save">Para operaciones con escala</div>
-            </div>
-            <p class="plan-desc">Para empresas con m&uacute;ltiples sedes, equipos grandes e integraciones con sistemas propios. SLA garantizado por contrato.</p>
-            <div class="plan-feats">
-              <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Todo lo de Professional <strong>incluido</strong></span></div>
-              <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Usuarios ilimitados</strong></span></div>
-              <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Manager de cuenta</strong> dedicado</span></div>
-              <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Integraciones <strong>a medida</strong> (ERP, POS, WMS)</span></div>
-              <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>SLA <strong>garantizado</strong> por contrato</span></div>
-            </div>
-            <div class="plan-total">
-              <span class="plan-total-label">Inversi&oacute;n total el primer mes</span>
-              <span class="plan-total-value">COP&nbsp;8.7M <span>= 3.9M + 4.8M</span></span>
-            </div>
-            <a href="mailto:admin@channexai.com" class="btn btn--outline" style="width:100%;justify-content:center">Hablar con el equipo &rarr;</a>
+            <div class="plan-price-save">Precio especial de lanzamiento</div>
           </div>
-
+          <p class="plan-desc">Para equipos comerciales que quieren operar con IA desde el d&iacute;a 1 &mdash; sin necesidad de m&aacute;s personal.</p>
+          <div class="plan-feats">
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>9 apps activas</strong> con mantenimiento continuo</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>2 usuarios incluidos</strong><span class="plan-feat-sub">Adicionales: COP $10.000 / usuario / mes</span></span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Soporte <strong>prioritario</strong> por WhatsApp y email</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Acceso anticipado a <strong>nuevas apps</strong></span></div>
+          </div>
+          <div class="plan-total">
+            <span class="plan-total-label">Inversi&oacute;n total el primer mes</span>
+            <span class="price-val plan-total-val"
+              data-cop="COP 6.3M = 3.9M + 2.4M"
+              data-usd="USD 1.658 = 1.026 + 632"
+              data-mxn="MXN 29.100 = 18.000 + 11.100">COP 6.3M = 3.9M + 2.4M</span>
+          </div>
+          <a href="#" class="btn btn--stripe" data-stripe="PROFESSIONAL_LINK" style="width:100%;justify-content:center;gap:8px;margin-top:var(--s2)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V10h16v8zm-1-4h-2v2h2v-2zm-4 0H5v2h10v-2z"/></svg>
+            Suscribirme &mdash; Professional
+          </a>
         </div>
+
+        <!-- ENTERPRISE -->
+        <div class="plan-card fade-scale">
+          <div class="plan-header">
+            <div class="plan-type-label">Suscripci&oacute;n mensual</div>
+            <div class="plan-name">Enterprise</div>
+          </div>
+          <div class="plan-price-block">
+            <div class="plan-price-was"
+              data-cop="COP $6.000.000 / mes"
+              data-usd="USD $1.579 / mo"
+              data-mxn="MXN $27.600 / mes">COP $6.000.000 / mes</div>
+            <div class="plan-price-now">
+              <sup class="price-sym" data-cop="COP&nbsp;" data-usd="USD&nbsp;" data-mxn="MXN&nbsp;">COP&nbsp;</sup><span
+              class="price-val"
+              data-cop="4.8M" data-usd="1.263" data-mxn="22.100">4.8M</span><sub class="plan-period" data-cop="/mes" data-usd="/mo" data-mxn="/mes">/mes</sub>
+            </div>
+            <div class="plan-price-save">Para operaciones con escala</div>
+          </div>
+          <p class="plan-desc">Para empresas con m&uacute;ltiples sedes, equipos grandes e integraciones con sistemas propios. SLA garantizado por contrato.</p>
+          <div class="plan-feats">
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Todo lo de Professional <strong>incluido</strong></span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Usuarios ilimitados</strong></span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Manager de cuenta</strong> dedicado</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Integraciones <strong>a medida</strong> (ERP, POS, WMS)</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>SLA <strong>garantizado</strong> por contrato</span></div>
+          </div>
+          <div class="plan-total">
+            <span class="plan-total-label">Inversi&oacute;n total el primer mes</span>
+            <span class="price-val plan-total-val"
+              data-cop="COP 8.7M = 3.9M + 4.8M"
+              data-usd="USD 2.289 = 1.026 + 1.263"
+              data-mxn="MXN 40.100 = 18.000 + 22.100">COP 8.7M = 3.9M + 4.8M</span>
+          </div>
+          <a href="mailto:admin@channexai.com" class="btn btn--outline" style="width:100%;justify-content:center;margin-top:var(--s2)">Hablar con el equipo &rarr;</a>
+        </div>
+
       </div>
 
     </div><!-- /pricing-layout -->
 
-    <!-- Preguntas frecuentes de cobro -->
+    <!-- FAQ -->
     <div class="pricing-faq fade-up">
       <div class="pfaq-title">Preguntas frecuentes sobre el cobro</div>
       <div class="pfaq-grid">
         <div class="pfaq-item">
-          <div class="pfaq-q">¿La implementación se cobra cada año?</div>
-          <div class="pfaq-a">No. Es un pago único. Solo la pagas una vez al inicio.</div>
+          <div class="pfaq-q">&iquest;La implementaci&oacute;n se cobra cada a&ntilde;o?</div>
+          <div class="pfaq-a">No. Es un pago &uacute;nico. Solo la pagas una vez al inicio.</div>
         </div>
         <div class="pfaq-item">
-          <div class="pfaq-q">¿Cuándo empieza el cobro mensual?</div>
+          <div class="pfaq-q">&iquest;Cu&aacute;ndo empieza el cobro mensual?</div>
           <div class="pfaq-a">Cuando tu sistema queda operativo, entre la semana 3 y 4.</div>
         </div>
         <div class="pfaq-item">
-          <div class="pfaq-q">¿Puedo cancelar la suscripción?</div>
-          <div class="pfaq-a">Sí. Sin permanencia mínima. Cancelas cuando quieras.</div>
+          <div class="pfaq-q">&iquest;Puedo cancelar la suscripci&oacute;n?</div>
+          <div class="pfaq-a">S&iacute;. Sin permanencia m&iacute;nima. Cancelas cuando quieras.</div>
         </div>
         <div class="pfaq-item">
-          <div class="pfaq-q">¿Qué pasa si quiero cambiar de plan?</div>
+          <div class="pfaq-q">&iquest;Qu&eacute; pasa si quiero cambiar de plan?</div>
           <div class="pfaq-a">Puedes escalar de Professional a Enterprise en cualquier momento.</div>
         </div>
       </div>
     </div>
-    <p style="text-align:center;margin-top:var(--s4)" class="body-sm">Todos los precios en COP &middot; MEX | COL &middot; Pago diferido disponible &middot; <a href="mailto:admin@channexai.com" style="color:var(--magenta-2);text-decoration:none">admin@channexai.com</a></p>
+
+    <p style="text-align:center;margin-top:var(--s4)" class="body-sm">
+      <span id="pricing-note">Precios en COP &middot; TRM referencia $3.800 &middot; Pago diferido disponible &middot;</span>
+      <a href="mailto:admin@channexai.com" style="color:var(--magenta-2);text-decoration:none"> admin@channexai.com</a>
+    </p>
 
   </div>
 </section>
@@ -2901,6 +3021,42 @@ document.addEventListener('mousemove', e => {
 ScrollTrigger.refresh();
 
 });
+
+// ── CURRENCY SWITCHER ──
+(function() {
+  function setCurrency(cur) {
+    // Update all [data-cop] elements
+    document.querySelectorAll('[data-cop]').forEach(function(el) {
+      var val = el.getAttribute('data-' + cur.toLowerCase());
+      if (val) el.innerHTML = val;
+    });
+    // Update tabs
+    document.querySelectorAll('.ctab').forEach(function(b) {
+      b.classList.toggle('active', b.getAttribute('data-currency') === cur);
+    });
+    // Update note
+    var noteMap = {
+      COP: 'Precios en COP &middot; TRM referencia $3.800 &middot; Pago diferido disponible &middot;',
+      USD: 'Prices in USD &middot; TRM reference $3,800 COP &middot; Deferred payment available &middot;',
+      MXN: 'Precios en MXN &middot; TRM referencia $3.800 COP &middot; Pago diferido disponible &middot;'
+    };
+    var note = document.getElementById('pricing-note');
+    if (note) note.innerHTML = noteMap[cur] || noteMap.COP;
+    var cnote = document.getElementById('currency-note');
+    if (cnote) {
+      var cmap = {
+        COP: 'TRM referencia: $3.800 COP/USD',
+        USD: 'Reference rate: $3,800 COP/USD',
+        MXN: 'Tipo de cambio: $3.800 COP/USD · $17,5 MXN/USD'
+      };
+      cnote.textContent = cmap[cur] || cmap.COP;
+    }
+  }
+  document.querySelectorAll('.ctab').forEach(function(btn) {
+    btn.addEventListener('click', function() { setCurrency(btn.getAttribute('data-currency')); });
+  });
+})();
+
 </script>
 </body>
 </html>
