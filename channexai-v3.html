@@ -1029,7 +1029,7 @@ body::before {
 
 /* ── NEW PRICING LAYOUT ── */
 .pricing-layout {
-  max-width: 1080px;
+  max-width: 1200px;
   margin: var(--s6) auto 0;
   display: flex;
   flex-direction: column;
@@ -1140,7 +1140,7 @@ body::before {
 /* Step 2 — plans row */
 .plans-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: var(--s3);
 }
 .plan-card {
@@ -1222,7 +1222,7 @@ body::before {
   }
   .impl-divider { display: none; }
   .impl-price-col, .impl-features-col, .impl-cta-col { padding: 0; }
-  .plans-row { grid-template-columns: 1fr; }
+  .plans-row { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
   .impl-block { padding: var(--s4); }
@@ -1418,7 +1418,7 @@ img { max-width: 100%; height: auto; }
   .tl-dot-wrap { justify-content: flex-start; }
   .tl-col { align-items: flex-start; }
   /* Pricing */
-  .plans-row { grid-template-columns: 1fr; }
+  .plans-row { grid-template-columns: 1fr 1fr; }
   .plan-card { padding: var(--s3); }
   /* CTA box */
   .cta-box { padding: var(--s5) var(--s3); border-radius: var(--r-xl); }
@@ -1881,10 +1881,51 @@ img { max-width: 100%; height: auto; }
 }
 @media (max-width: 600px) {
   .pfaq-grid { grid-template-columns: 1fr; }
-  .plans-row { grid-template-columns: 1fr; }
+  .plans-row { grid-template-columns: 1fr 1fr; }
   .ctab { padding: 6px 12px; font-size: .70rem; }
   .currency-note { display: none; }
 }
+
+/* ── SCALE PLAN CARD ── */
+.plan-card.plan-scale {
+  background: linear-gradient(150deg, rgba(255,180,0,.08), rgba(242,0,89,.06), rgba(60,22,126,.07));
+  border-color: rgba(255,180,0,.35);
+  box-shadow: 0 0 56px rgba(255,180,0,.08);
+}
+.plan-card.plan-scale:hover {
+  border-color: rgba(255,180,0,.55);
+  transform: translateY(-4px);
+}
+.plan-badge--scale {
+  background: linear-gradient(135deg, #f5a623, #e8690b);
+}
+.plan-price-save--gold {
+  background: rgba(245,166,35,.12);
+  color: #f5a623;
+  border: 1px solid rgba(245,166,35,.28);
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-size: .68rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 7px;
+}
+.btn--scale {
+  background: linear-gradient(135deg, #f5a623, #e8690b);
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(245,166,35,.35);
+  border: none;
+  padding: var(--s3) var(--s4);
+  border-radius: var(--r-md);
+  font-weight: 700;
+  font-size: .88rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: opacity .2s, transform .2s;
+}
+.btn--scale:hover { opacity: .88; transform: translateY(-1px); }
 </style>
 </head>
 <body>
@@ -1959,15 +2000,15 @@ img { max-width: 100%; height: auto; }
       <div class="hero-left">
         <div class="hero-badge fade-up" id="hero-badge">
           <div class="hero-badge-dot"></div>
-          <span class="hero-badge-text">Plataforma B2B de Conversión con IA</span>
+          <span class="hero-badge-text">Una plataforma. Todo tu marketing. Con IA.</span>
         </div>
         <h1 class="display-1 hero-title fade-up">
           Centraliza.<br>
-          Califica.<br>
+          Automatiza.<br>
           <span class="grad">Convierte.</span>
         </h1>
         <p class="body-lg hero-body fade-up">
-          ChanneX AI conecta todos tus canales de comunicación, <span class="grad-cool">califica leads en 90 segundos</span> con inteligencia artificial y automatiza el seguimiento — para que tu equipo comercial sólo hable con quien <span class="grad">ya está listo para comprar.</span>
+          Las empresas que más venden no usan más herramientas &mdash; <span class="grad-cool">usan menos, y mejor.</span> ChanneX AI consolida tu stack de marketing fragmentado en <span class="grad">una sola plataforma de IA</span> que reduce riesgos, elimina licencias innecesarias y transforma cómo opera tu equipo comercial.
         </p>
         <div class="hero-actions fade-up">
           <a href="#precios" class="btn btn--primary">
@@ -1978,7 +2019,7 @@ img { max-width: 100%; height: auto; }
         </div>
         <div class="hero-trust fade-up">
           <span class="hero-trust-dot"></span>
-          <span class="hero-trust-text">Sin permanencia · Implementación guiada · Operativo en 3–4 semanas</span>
+          <span class="hero-trust-text">Sin permanencia · Reemplaza hasta 9 herramientas · Operativo en 3–4 semanas</span>
         </div>
 
       </div>
@@ -2031,7 +2072,7 @@ img { max-width: 100%; height: auto; }
 
 <section class="logos-bar">
   <div class="logos-bar-inner">
-  <span class="logos-bar-label">Respaldados por</span>
+  <span class="logos-bar-label">Respaldados y certificados por</span>
   <div class="logos-track-wrap">
     <div class="logos-track">
       <!-- SET 1 -->
@@ -2096,7 +2137,7 @@ img { max-width: 100%; height: auto; }
       </div>
       <div class="metric-cell fade-up">
         <span class="metric-cell-n" data-count="80" data-suf="%">0%</span>
-        <span class="metric-cell-l">Reducción en carga operativa</span>
+        <span class="metric-cell-l">Reducción en carga operativa del equipo de marketing</span>
       </div>
       <div class="metric-cell fade-up">
         <span class="metric-cell-n">3–4 sem</span>
@@ -2113,12 +2154,12 @@ img { max-width: 100%; height: auto; }
   <div class="container">
 
     <div class="problem-intro">
-      <div class="eyebrow fade-up">El problema que resolvemos</div>
+      <div class="eyebrow fade-up">Por qu&eacute; el modelo actual no escala</div>
       <h2 class="display-2 fade-up" style="margin-bottom:var(--s2)">
-        Tu equipo trabaja.<br>Pero los leads <span class="grad">ya se fueron.</span>
+        Tu stack de marketing cuesta m&aacute;s.<br>Pero produce <span class="grad">cada vez menos.</span>
       </h2>
       <p class="body-md fade-up" style="color:var(--paper-45)">
-        No es falta de esfuerzo. <span class="grad-warm">Es falta de sistema.</span> Cada d&iacute;a tu operaci&oacute;n pierde oportunidades reales por cuatro razones que ninguna herramienta suelta resuelve sola.
+        No es falta de inversi&oacute;n. <span class="grad-warm">Es exceso de fragmentaci&oacute;n.</span> El equipo de marketing promedio opera con 7 plataformas distintas que no se hablan &mdash; pagando m&aacute;s, produciendo menos, y asumiendo un riesgo operativo que crece con cada nueva herramienta.
       </p>
     </div>
 
@@ -2151,8 +2192,8 @@ img { max-width: 100%; height: auto; }
             <path d="M12 20V10M18 20V4M6 20v-4"/>
           </svg>
         </div>
-        <div class="pain-card-title">Pauta activa, atribuci&oacute;n invisible</div>
-        <div class="pain-card-body">Inviertes en Meta Ads pero no sabes qu&eacute; campa&ntilde;a genera ventas reales. <strong style="color:var(--paper)">Optimizas con intuici&oacute;n,</strong> no con datos &mdash; y el presupuesto se va sin retorno medible.</div>
+        <div class="pain-card-title">Pagas 7 plataformas que no se hablan entre s&iacute;</div>
+        <div class="pain-card-body">CRM, inbox, automatizaciones, campa&ntilde;as, analytics &mdash; cada herramienta en su silo. <strong style="color:var(--paper)">Datos duplicados, flujos rotos</strong> y un equipo que pasa m&aacute;s tiempo integrando software que ejecutando estrategia.</div>
       </div>
 
       <div class="pain-card stagger-child">
@@ -2161,8 +2202,8 @@ img { max-width: 100%; height: auto; }
             <path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/>
           </svg>
         </div>
-        <div class="pain-card-title">Recompra que depende de la memoria</div>
-        <div class="pain-card-body">Un cliente listo para reordenar, sin contacto en el momento exacto, <strong style="color:var(--paper)">compra en otro lado.</strong> La retenci&oacute;n manual no escala cuando el volumen crece.</div>
+        <div class="pain-card-title">El conocimiento del cliente se va con las personas</div>
+        <div class="pain-card-body">Cuando un asesor sale del equipo, se lleva el historial. <strong style="color:var(--paper)">Sin un sistema central,</strong> cada rotaci&oacute;n es un reinicio — y el riesgo operativo crece con cada persona que abandona.</div>
       </div>
 
     </div>
@@ -2172,7 +2213,7 @@ img { max-width: 100%; height: auto; }
       <div class="solution-flow-header">
         <div>
           <div class="eyebrow" style="margin-bottom:6px">C&oacute;mo lo resuelve ChanneX AI</div>
-          <div class="solution-flow-title">El flujo completo &mdash; autom&aacute;tico, de punta a punta</div>
+          <div class="solution-flow-title">Un solo sistema. Todo el ciclo de marketing &mdash; autom&aacute;tico.</div>
         </div>
         <span class="solution-flow-sub">Desde el primer mensaje hasta la recompra</span>
       </div>
@@ -2292,9 +2333,9 @@ img { max-width: 100%; height: auto; }
 <section class="section apps-section" id="plataforma">
   <div class="container">
     <div style="text-align:center;max-width:620px;margin:0 auto var(--s6)">
-      <div class="eyebrow fade-up">Plataforma</div>
-      <h2 class="display-2 fade-up">Cada app resuelve<br>un <span class="grad">punto de fuga real.</span></h2>
-      <p class="body-md fade-up" style="margin-top:var(--s2);color:var(--paper-45)">Desde el primer mensaje hasta la recompra — <span class="grad-cool">9 aplicaciones conectadas</span> que cubren todo el ciclo comercial sin herramientas externas ni integraciones complicadas.</p>
+      <div class="eyebrow fade-up">Tu nuevo stack de marketing</div>
+      <h2 class="display-2 fade-up">9 herramientas en una.<br>Sin integraciones. <span class="grad">Sin fricciones.</span></h2>
+      <p class="body-md fade-up" style="margin-top:var(--s2);color:var(--paper-45)">ChanneX AI consolida lo que antes requer&iacute;as en CRM + inbox + automatizaciones + campa&ntilde;as + analytics &mdash; en <span class="grad-cool">una sola plataforma potenciada con IA.</span> Una suscripci&oacute;n. Cero integraciones externas. Todo conectado desde el d&iacute;a 1.</p>
     </div>
 
     <!-- ROW 1: Featured + 2 standard -->
@@ -2527,10 +2568,10 @@ img { max-width: 100%; height: auto; }
   <div class="container">
 
     <div style="text-align:center;max-width:560px;margin:0 auto var(--s4)">
-      <div class="eyebrow fade-up">Planes y precios</div>
-      <h2 class="display-2 fade-up">Todo incluido.<br><span class="grad">Sin letra peque&ntilde;a.</span></h2>
+      <div class="eyebrow fade-up">Inversi&oacute;n inteligente</div>
+      <h2 class="display-2 fade-up">Una plataforma.<br><span class="grad">Cero plataformas extras.</span></h2>
       <p class="body-md fade-up" style="margin-top:var(--s2);color:var(--paper-45)">
-        Pagas la implementaci&oacute;n <strong style="color:var(--paper)">una sola vez</strong> y luego una <strong style="color:var(--paper)">suscripci&oacute;n mensual</strong> sin permanencia m&iacute;nima.
+        Pagas la implementaci&oacute;n <strong style="color:var(--paper)">una sola vez</strong> y luego una <strong style="color:var(--paper)">suscripci&oacute;n mensual</strong> &mdash; sin permanencia, sin licencias adicionales, sin sorpresas.
       </p>
     </div>
 
@@ -2560,8 +2601,8 @@ img { max-width: 100%; height: auto; }
       <div class="impl-block fade-up">
         <div class="impl-left">
           <div class="impl-label">Pago &uacute;nico &middot; No se repite</div>
-          <div class="impl-name">Implementaci&oacute;n</div>
-          <p class="impl-sub">Activamos las 9 apps, entrenamos a tu equipo y dejamos el sistema operativo en 3&ndash;4 semanas.</p>
+          <div class="impl-name">Implementaci&oacute;n &amp; Activaci&oacute;n</div>
+          <p class="impl-sub">Activamos las 9 apps, entrenamos a tu equipo y reemplazamos tu stack actual &mdash; el sistema queda operando solo en 3&ndash;4 semanas.</p>
           <div class="impl-feat-list" style="margin-top:var(--s3)">
             <div class="impl-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>9 apps</strong> configuradas para tu operaci&oacute;n</span></div>
             <div class="impl-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>10 sesiones</strong> de onboarding presencial o remoto</span></div>
@@ -2606,12 +2647,11 @@ img { max-width: 100%; height: auto; }
 
       <div class="plans-row">
 
-        <!-- PROFESSIONAL -->
-        <div class="plan-card plan-featured fade-scale">
-          <div class="plan-badge">&#10022; M&aacute;s elegido</div>
+        <!-- GROWTH (formerly Professional) -->
+        <div class="plan-card fade-scale">
           <div class="plan-header">
             <div class="plan-type-label">Suscripci&oacute;n mensual</div>
-            <div class="plan-name">Professional</div>
+            <div class="plan-name">Growth</div>
           </div>
           <div class="plan-price-block">
             <div class="plan-price-was"
@@ -2625,11 +2665,13 @@ img { max-width: 100%; height: auto; }
             </div>
             <div class="plan-price-save">Precio especial de lanzamiento</div>
           </div>
-          <p class="plan-desc">Para equipos comerciales que quieren operar con IA desde el d&iacute;a 1 &mdash; sin necesidad de m&aacute;s personal.</p>
+          <p class="plan-desc">Para equipos comerciales que quieren activar la IA desde el d&iacute;a 1 y escalar sin contratar m&aacute;s personal.</p>
           <div class="plan-feats">
             <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>9 apps activas</strong> con mantenimiento continuo</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Chatbot IA</strong> en WhatsApp, Instagram y web</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Automatizaciones</strong> de ventas y seguimiento de leads</span></div>
             <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>2 usuarios incluidos</strong><span class="plan-feat-sub">Adicionales: COP $10.000 / usuario / mes</span></span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Soporte <strong>prioritario</strong> por WhatsApp y email</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Soporte <strong>prioritario</strong> v&iacute;a WhatsApp y email</span></div>
             <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Acceso anticipado a <strong>nuevas apps</strong></span></div>
           </div>
           <div class="plan-total">
@@ -2639,14 +2681,15 @@ img { max-width: 100%; height: auto; }
               data-usd="USD 1.658 = 1.026 + 632"
               data-mxn="MXN 29.100 = 18.000 + 11.100">COP 6.3M = 3.9M + 2.4M</span>
           </div>
-          <a href="#" class="btn btn--stripe" data-stripe="PROFESSIONAL_LINK" style="width:100%;justify-content:center;gap:8px;margin-top:var(--s2)">
+          <a href="#" class="btn btn--stripe" data-stripe="GROWTH_LINK" style="width:100%;justify-content:center;gap:8px;margin-top:var(--s2)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V10h16v8zm-1-4h-2v2h2v-2zm-4 0H5v2h10v-2z"/></svg>
-            Suscribirme &mdash; Professional
+            Suscribirme &mdash; Growth
           </a>
         </div>
 
         <!-- ENTERPRISE -->
-        <div class="plan-card fade-scale">
+        <div class="plan-card plan-featured fade-scale">
+          <div class="plan-badge">&#10022; M&aacute;s elegido</div>
           <div class="plan-header">
             <div class="plan-type-label">Suscripci&oacute;n mensual</div>
             <div class="plan-name">Enterprise</div>
@@ -2663,10 +2706,11 @@ img { max-width: 100%; height: auto; }
             </div>
             <div class="plan-price-save">Para operaciones con escala</div>
           </div>
-          <p class="plan-desc">Para empresas con m&uacute;ltiples sedes, equipos grandes e integraciones con sistemas propios. SLA garantizado por contrato.</p>
+          <p class="plan-desc">Para empresas con m&uacute;ltiples sedes y equipos de venta que necesitan automatizaci&oacute;n avanzada, integraciones y soporte garantizado.</p>
           <div class="plan-feats">
-            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Todo lo de Professional <strong>incluido</strong></span></div>
-            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Usuarios ilimitados</strong></span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Todo lo de Growth <strong>incluido</strong></span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Usuarios ilimitados</strong> en tu equipo</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>CRM avanzado</strong> con pipelines personalizados</span></div>
             <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Manager de cuenta</strong> dedicado</span></div>
             <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Integraciones <strong>a medida</strong> (ERP, POS, WMS)</span></div>
             <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>SLA <strong>garantizado</strong> por contrato</span></div>
@@ -2678,7 +2722,54 @@ img { max-width: 100%; height: auto; }
               data-usd="USD 2.289 = 1.026 + 1.263"
               data-mxn="MXN 40.100 = 18.000 + 22.100">COP 8.7M = 3.9M + 4.8M</span>
           </div>
-          <a href="mailto:admin@channexai.com" class="btn btn--outline" style="width:100%;justify-content:center;margin-top:var(--s2)">Hablar con el equipo &rarr;</a>
+          <a href="#" class="btn btn--stripe" data-stripe="ENTERPRISE_LINK" style="width:100%;justify-content:center;gap:8px;margin-top:var(--s2)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 14H4V10h16v8zm-1-4h-2v2h2v-2zm-4 0H5v2h10v-2z"/></svg>
+            Suscribirme &mdash; Enterprise
+          </a>
+        </div>
+
+        <!-- SCALE (nuevo top-tier) -->
+        <div class="plan-card plan-scale fade-scale">
+          <div class="plan-badge plan-badge--scale">&#9651; Scale &mdash; Top Tier</div>
+          <div class="plan-header">
+            <div class="plan-type-label">Suscripci&oacute;n mensual</div>
+            <div class="plan-name">Scale</div>
+          </div>
+          <div class="plan-price-block">
+            <div class="plan-price-was"
+              data-cop="COP $14.000.000 / mes"
+              data-usd="USD $3.684 / mo"
+              data-mxn="MXN $60.800 / mes">COP $14.000.000 / mes</div>
+            <div class="plan-price-now">
+              <sup class="price-sym" data-cop="COP&nbsp;" data-usd="USD&nbsp;" data-mxn="MXN&nbsp;">COP&nbsp;</sup><span
+              class="price-val"
+              data-cop="9.5M" data-usd="2.500" data-mxn="41.300">9.5M</span><sub class="plan-period" data-cop="/mes" data-usd="/mo" data-mxn="/mes">/mes</sub>
+            </div>
+            <div class="plan-price-save plan-price-save--gold">Operaci&oacute;n IA total &middot; Sin l&iacute;mites</div>
+          </div>
+          <p class="plan-desc">Para corporaciones y operaciones de alto volumen que necesitan IA personalizada, m&uacute;ltiples workspaces y un equipo ChanneX dedicado.</p>
+          <div class="plan-feats">
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Todo lo de Enterprise <strong>incluido</strong></span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>IA entrenada</strong> con tus datos propios y flujos de negocio</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Workspaces m&uacute;ltiples</strong> para franquicias, sedes o marcas</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Workflows ilimitados</strong> construidos por el equipo ChanneX</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>White-label</strong> disponible bajo demanda</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Soporte <strong>24/7</strong> con SLA &lt;1 hora de primera respuesta</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Sesiones mensuales</strong> de capacitaci&oacute;n continua del equipo</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>QBRs trimestrales con <strong>equipo ejecutivo</strong> ChanneX</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span><strong>Analítica avanzada</strong> con reportes ejecutivos a medida</span></div>
+            <div class="plan-feat"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor"/></svg><span>Acceso beta <strong>exclusivo</strong> a nuevas apps antes del lanzamiento</span></div>
+          </div>
+          <div class="plan-total">
+            <span class="plan-total-label">Inversi&oacute;n total el primer mes</span>
+            <span class="price-val plan-total-val"
+              data-cop="COP 13.4M = 3.9M + 9.5M"
+              data-usd="USD 3.526 = 1.026 + 2.500"
+              data-mxn="MXN 59.300 = 18.000 + 41.300">COP 13.4M = 3.9M + 9.5M</span>
+          </div>
+          <a href="mailto:admin@channexai.com" class="btn btn--scale" style="width:100%;justify-content:center;gap:8px;margin-top:var(--s2)">
+            Quiero Scale &mdash; Hablemos &rarr;
+          </a>
         </div>
 
       </div>
@@ -2721,14 +2812,14 @@ img { max-width: 100%; height: auto; }
   <div class="container">
     <div class="cta-box fade-scale">
       <div class="cta-body">
-        <div class="eyebrow" style="justify-content:center;margin-bottom:var(--s2)">¿Listo para automatizar?</div>
-        <h2 class="display-2 cta-title">Más ventas.<br>Mismo equipo. <span class="grad">Menos fricción.</span></h2>
-        <p class="body-lg cta-sub" style="margin-top:var(--s2)">En <span class="grad-cool">3 a 4 semanas</span> tu operación comercial puede estar funcionando con IA. Agenda una llamada de diagnóstico sin costo — te mostramos exactamente qué implementaríamos para tu negocio.</p>
+        <div class="eyebrow" style="justify-content:center;margin-bottom:var(--s2)">&iquest;Listo para transformar tu operaci&oacute;n?</div>
+        <h2 class="display-2 cta-title">Un sistema.<br>Todo el marketing. <span class="grad">Sin l&iacute;mites.</span></h2>
+        <p class="body-lg cta-sub" style="margin-top:var(--s2)">En <span class="grad-cool">3 a 4 semanas</span> reemplazas tu stack fragmentado por una plataforma de IA que opera sola. Agenda un diagn&oacute;stico gratuito &mdash; te mostramos cu&aacute;nto podr&iacute;as ahorrar y qu&eacute; automatizar&iacute;amos desde el primer d&iacute;a.</p>
         <div class="cta-actions">
           <a href="https://wa.me/5210000000000" class="btn btn--primary" style="font-size:.92rem;padding:13px 28px;letter-spacing:.04em">Agendar diagnóstico gratuito</a>
           <a href="mailto:admin@channexai.com" class="btn btn--ghost">admin@channexai.com</a>
         </div>
-        <p class="cta-fine">Sin compromiso · Respuesta en menos de 2 horas · MEX | COL</p>
+        <p class="cta-fine">Sin compromiso · Respuesta en menos de 2 horas · Colombia | M&eacute;xico | USA</p>
       </div>
     </div>
   </div>
