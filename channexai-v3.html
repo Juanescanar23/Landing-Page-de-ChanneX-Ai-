@@ -1804,7 +1804,7 @@ img { max-width: 100%; height: auto; }
   gap: var(--s3); margin-bottom: var(--s5); flex-wrap: wrap;
 }
 .currency-label { font-size: .76rem; color: var(--paper-45); font-weight: 500; }
-.currency-note  { font-size: .68rem; color: var(--paper-20); font-style: italic; }
+.currency-note  { display: none; }
 .currency-tabs  {
   display: flex; gap: 4px;
   background: var(--ink-3); border: 1px solid var(--paper-10);
@@ -2542,7 +2542,7 @@ img { max-width: 100%; height: auto; }
         <button class="ctab" data-currency="USD">🇺🇸&nbsp;USD</button>
         <button class="ctab" data-currency="MXN">🇲🇽&nbsp;MXN</button>
       </div>
-      <span class="currency-note" id="currency-note">TRM referencia: $3.800 COP/USD</span>
+      <span class="currency-note" id="currency-note" style="display:none"></span>
     </div>
 
     <div class="pricing-layout">
@@ -2709,7 +2709,7 @@ img { max-width: 100%; height: auto; }
     </div>
 
     <p style="text-align:center;margin-top:var(--s4)" class="body-sm">
-      <span id="pricing-note">Precios en COP &middot; TRM referencia $3.800 &middot; Pago diferido disponible &middot;</span>
+      <span id="pricing-note">Precios en COP &middot; MXN &middot; USD &middot; Pago diferido disponible &middot;</span>
       <a href="mailto:admin@channexai.com" style="color:var(--magenta-2);text-decoration:none"> admin@channexai.com</a>
     </p>
 
